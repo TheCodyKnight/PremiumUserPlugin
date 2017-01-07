@@ -59,5 +59,4 @@ class Shopware_Plugins_Frontend_PremiumUserPlugin_Bootstrap extends Shopware_Com
         $view->assign('fontSize', $this->Config()->get('font-size'));
         $view->assign('italic', $this->Config()->get('italic'));
     }
-
 }

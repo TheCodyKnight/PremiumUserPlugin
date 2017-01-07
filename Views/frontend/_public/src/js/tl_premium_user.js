@@ -3,5 +3,4 @@
  */
 $(document).ready(function() {
     $('.quote').text("blabla");
-
 });
