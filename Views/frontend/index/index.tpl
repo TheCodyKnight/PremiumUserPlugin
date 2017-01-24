@@ -1,10 +1,10 @@
 {extends file="parent:frontend/index/index.tpl"}
 
 {block name='frontend_index_header_javascript_jquery' append}
-    <script src="{link file='frontend/_public/src/js/tl_premium_users.js'}"></script>
+    {*<script src="{link file='frontend/_public/src/js/tl_premium_users.js'}"></script>*}
     <script>$(document).ready(function() {
             // jquery to get JSON from the forismatic API
-            var quoteUrl = "http://api.forismatic.com/api/1.0/?method=getQuote&key=457653&format=jsonp&lang=en&jsonp=?";
+            var  quoteUrl = "http://api.forismatic.com/api/1.0/?method=getQuote&key=457653&format=jsonp&lang=en&jsonp=?";
             var getQuote = function(data) {
                 $(".quote").text(data.quoteText);
                 if (data.quoteAuthor == "")

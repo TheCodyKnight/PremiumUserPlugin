@@ -19,9 +19,38 @@ class Shopware_Plugins_Frontend_PremiumUserPlugin_Bootstrap extends Shopware_Com
             'onFrontendPostDispatch'
         );
 
+        $this->subscribeEvent(
+            'Theme_Compiler_Collect_Plugin_Less',
+            'onCollectLessFiles'
+        );
+
         $this->createConfig();
+        $this->createCustomergroup();
 
         return true;
+    }
+
+    private function createCustomergroup()
+    {
+        $sql = "SELECT id FROM s_core_customergroups WHERE groupkey = 'P'";
+        $customerGroupExists = Shopware()->Db()->fetchOne($sql);
+
+        if (!$customerGroupExists)
+        {
+            $data = array (
+                'groupkey' => 'P',
+                'description' => 'Premium Users',
+                'tax' => '1',
+                'taxinput' => '0',
+                'mode' => '0',
+                'discount' => '10',
+                'minimumorder' => '0',
+                'minimumordersurcharge' => '0');
+
+            Shopware()->Db()->insert('s_core_customergroups', $data);
+
+            // TBD: set discount for Premium Users in config!
+        }
     }
 
     private function createConfig()
@@ -46,6 +75,16 @@ class Shopware_Plugins_Frontend_PremiumUserPlugin_Bootstrap extends Shopware_Com
         ));
     }
 
+    public function onCollectLessFiles()
+    {
+        error_log("collecting less");
+
+        return new \Shopware\Components\Theme\LessDefinition(
+            [],
+            [__DIR__ . 'Views/frontend/_public/src/less']
+        );
+    }
+
     public function onFrontendPostDispatch(Enlight_Event_EventArgs $args)
     {
         /** @var \Enlight_Controller_Action $controller */
@@ -58,5 +97,12 @@ class Shopware_Plugins_Frontend_PremiumUserPlugin_Bootstrap extends Shopware_Com
 
         $view->assign('fontSize', $this->Config()->get('font-size'));
         $view->assign('italic', $this->Config()->get('italic'));
+
+        // display most recently ordered item
+
+
+
+
     }
+
 }
